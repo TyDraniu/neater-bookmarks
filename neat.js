@@ -46,27 +46,6 @@ function init() {
 		return v;
 	})();
 	
-	// Some i18n
-	$('search-input').placeholder = _m('searchBookmarks');
-	$('edit-dialog-name').placeholder = _m('name');
-	$('edit-dialog-url').placeholder = _m('url');
-	$each({
-		'bookmark-new-tab': 'openNewTab',
-		'bookmark-new-window': 'openNewWindow',
-		'bookmark-new-incognito-window': 'openIncognitoWindow',
-		'bookmark-edit': 'edit',
-		'bookmark-delete': 'delete',
-		'folder-window': 'openBookmarks',
-		'folder-new-window': 'openBookmarksNewWindow',
-		'folder-new-incognito-window': 'openBookmarksIncognitoWindow',
-		'folder-edit': 'edit',
-		'folder-delete': 'deleteEllipsis',
-		'edit-dialog-button': 'save'
-	}, function(msg, id){
-		var el = $(id), m = _m(msg);
-		if (el.tagName == 'COMMAND') el.label = m;
-		el.textContent = m;
-	});
 	
 	// RTL indicator
 	var rtl = (body.getComputedStyle('direction') == 'rtl');
@@ -1494,16 +1473,6 @@ function init() {
 		}
 	});
 	
-	// Fix stupid Chrome build 536 bug
-	if (version.build >= 536) body.addClass('chrome-536');
-	
-	// Fix stupid wrong offset of the page on Mac
-	if (os == 'mac'){
-		setTimeout(function(){
-			var top = body.scrollTop;
-			if (top != 0) body.scrollTop = 0;
-		}, 1500);
-	}
 	
 	if (localStorage.userstyle){
 		var style = document.createElement('style');
