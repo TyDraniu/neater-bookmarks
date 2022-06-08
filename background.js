@@ -15,9 +15,9 @@ var reportError = function(msg, url, line){
 
 window.onerror = reportError;
 
-chrome.extension.onRequest.addListener(function(request){
-	if (request.error) reportError.apply(null, request.error);
-});
+// chrome.extension.onRequest.addListener(function(request){
+// 	if (request.error) reportError.apply(null, request.error);
+// });
 
 if (chrome.omnibox){
 	var setSuggest = function(description){
@@ -110,27 +110,18 @@ if (chrome.omnibox){
 		});
 	});
 
-	chrome.omnibox.onInputEntered.addListener(function(text, disposition){
+	chrome.omnibox.onInputEntered.addListener(function(text){
 		if (!text || !firstResult){
 			resetSuggest();
 			return;
 		}
-		disposition = disposition || 'currentTab';
 		var url = (text == omniboxValue) ? firstResult.url : text;
-		if (disposition === 'currentTab') {
-			chrome.tabs.getSelected(null, function(tab){
-				chrome.tabs.update(tab.id, {
-					url: url,
-					active: true
-				});
-			});
-		} else {
-			var openInForeground = (disposition === 'newForegroundTab');
-			chrome.tabs.create({
+		chrome.tabs.getSelected(null, function(tab){
+			chrome.tabs.update(tab.id, {
 				url: url,
-				active: openInForeground
+				selected: true
 			});
-		}
+		});
 	});
 }
 
